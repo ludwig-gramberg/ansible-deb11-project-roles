@@ -1,0 +1,24 @@
+---
+
+- name: install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "libapache2-mod-xsendfile"
+    - "imagemagick"
+
+- name: teachem calendars redirect
+  template: 
+    dest: "{{ wp_docroot }}/teachem-calendars.php" 
+    src: templates/teachem-calendars.php.j2 
+    owner: root 
+    group: www-data 
+    mode: 0640
+
+- name: deploy wp vhost
+  template: 
+    dest: /etc/apache2/vhosts-include/wp.conf
+    src: templates/wp.conf.j2
+  notify:
+    - reload apache

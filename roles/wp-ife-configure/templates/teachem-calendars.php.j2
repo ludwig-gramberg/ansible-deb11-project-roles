@@ -1,0 +1,19 @@
+<?php
+ini_set('display_errors', false);
+
+$id = array_key_exists('id', $_GET) && preg_match('/^[a-f0-9]+$/', $_GET['id'])
+        ? $_GET['id']
+        : null;
+
+if($id === null) {
+   exit;
+}
+
+$result = @file_get_contents('{{ teachem_base_url }}/calendars/'.$id);
+if(!$result) {
+	header('HTTP/1.x 404 Not Found', true, 404);
+	exit;
+}
+
+header('Content-Type: text/calendar; charset=utf8');
+echo $result;

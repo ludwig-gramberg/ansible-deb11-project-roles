@@ -9,7 +9,7 @@
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule ^.*$ /assets.php?%{QUERY_STRING} [L]
 	RewriteCond %{REQUEST_URI} ^/api/ [NC]
-	RewriteCond %{REMOTE_ADDR} !{{ teachem_api_access }}$
+	RewriteCond %{REMOTE_ADDR} !{{ teachem_api_access }}
 	RewriteRule ^.*$ - [F,L]
 	RewriteCond %{REMOTE_ADDR} {{ teachem_api_access }}
 	RewriteCond %{REQUEST_URI} ^/api/ [NC]

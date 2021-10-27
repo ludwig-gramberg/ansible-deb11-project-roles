@@ -1,0 +1,26 @@
+---
+
+- name: install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "imagemagick"
+    - "webp"
+
+- name: deploy php teachem.ini
+  template:
+    dest: /etc/php/{{ php_version }}/{{ item }}/conf.d/90-fw.ini
+    src: templates/fw.ini.j2
+  with_items:
+    - apache2
+    - cli
+  notify:
+    - reload apache
+
+- name: deploy wp vhost
+  template: 
+    dest: /etc/apache2/vhosts-include/wp.conf
+    src: templates/wp.conf.j2
+  notify:
+    - reload apache

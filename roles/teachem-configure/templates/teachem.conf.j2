@@ -1,0 +1,24 @@
+<Directory {{ teachem_docroot }}/public>
+	Options -Indexes +FollowSymLinks
+	AllowOverride None
+	
+	RewriteEngine on
+	RewriteBase /
+	RewriteCond %{REQUEST_METHOD} GET [NC]
+	RewriteCond %{REQUEST_URI} ^/asset/.*\.[a-z0-9]+$ [NC]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^.*$ /assets.php?%{QUERY_STRING} [L]
+	RewriteCond %{REQUEST_URI} ^/api/ [NC]
+	RewriteCond %{REMOTE_ADDR} !{{ teachem_api_access }}$
+	RewriteRule ^.*$ - [F,L]
+	RewriteCond %{REMOTE_ADDR} {{ teachem_api_access }}
+	RewriteCond %{REQUEST_URI} ^/api/ [NC]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^.*$ /api.php [L]
+	RewriteCond %{REQUEST_FILENAME} !-s
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^.*$ /index.php [L]
+	
+	require all granted
+</Directory>

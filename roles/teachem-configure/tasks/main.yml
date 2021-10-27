@@ -1,0 +1,18 @@
+---
+
+- name: deploy teachem vhost
+  template: 
+    dest: /etc/apache2/vhosts-include/teachem.conf
+    src: templates/teachem.conf.j2
+  notify:
+    - reload apache
+
+- name: deploy php teachem.ini
+  template: 
+    dest: /etc/php/{{ php_version }}/{{ item }}/conf.d/90-teachem.ini
+    src: templates/teachem.ini.j2
+  with_items:
+    - apache2
+    - cli
+  notify:
+    - reload apache

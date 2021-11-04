@@ -1,0 +1,107 @@
+<Directory {{ mage_docroot }}>
+	Options -Indexes +FollowSymLinks +MultiViews
+	Require all granted
+	AllowOverride None
+	
+	# file based rules
+		<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|webp|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
+			Header set Cache-Control "max-age=7776000, public"
+		</FilesMatch>
+		<FilesMatch "^(api\.php|composer\.json|cron\.php|cron\.sh|get\.php|install\.php|LICENSE\.html|LICENSE\.txt|LICENSE_AFL\.txt|mage|maintenance\.php|modman|README\.md|RELEASE_NOTES\.txt)$">
+			require all denied
+		</FilesMatch>
+	
+	# waf settings
+		SetEnv PHP_WAF_ACTIVE 1
+		SetEnv PHP_WAF_BOTS 1
+		{% if mage_waf.active %}
+		SetEnv PHP_WAF_BLOCK 1
+		{% for bypass_match in mage_waf.bypass_matches %}
+		SetEnvIf Remote_Addr "{{ bypass_match }}" PHP_WAF_BYPASS=1
+		{% endfor %}
+		{% else %}
+		SetEnv PHP_WAF_BLOCK 0
+		SetEnv PHP_WAF_BYPASS 0
+		{% endif %}
+    
+    # index
+    	DirectoryIndex index.php index.html
+    
+    # php default config
+		php_value memory_limit 512M
+		php_value max_execution_time 300
+    
+    # Rewrites
+    	RewriteEngine on
+    	
+	# Block all oauth
+		RewriteRule ^oauth/authorize - [F,L]
+	# Block all api, except from local
+		RewriteCond ${REMOTE_ADDR} !{{ local_api_access_match }}
+		RewriteRule ^api(/|$) - [F,L]
+    
+	# core mage routing
+		RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+		RewriteCond %{REQUEST_URI} !^/(media|skin|js)$
+		RewriteCond %{REQUEST_FILENAME} !-f
+		RewriteCond %{REQUEST_FILENAME} !-f
+		RewriteCond %{REQUEST_FILENAME} !-l
+		RewriteRule . index.php [L]
+</Directory>
+
+
+# --------------- restricted directories ---------------
+
+
+<Directory {{ mage_docroot }}/app/>
+		Require all denied
+</Directory>
+<Directory {{ mage_docroot }}/downloader/>
+		Require all denied
+</Directory>
+<Directory {{ mage_docroot }}/dev/>
+		Require all denied
+</Directory>
+<Directory /var/www/project/errors>
+		require all denied
+</Directory>
+<Directory {{ mage_docroot }}/includes/>
+		Require all denied
+</Directory>
+<Directory {{ mage_docroot }}/lib/>
+		Require all denied
+</Directory>
+<Directory {{ mage_docroot }}/pkginfo/>
+		Require all denied
+</Directory>
+<Directory {{ mage_docroot }}/shell/>
+		Require all denied
+</Directory>
+<Directory {{ mage_docroot }}/tools/>
+		Require all denied
+</Directory>
+<Directory {{ mage_docroot }}/var/>
+		Require all denied
+</Directory>
+<Directory {{ mage_docroot }}/waf/>
+		Require all denied
+</Directory>
+
+
+# ----------------- asset directories ------------------
+
+
+<Directory {{ mage_docroot }}/media/>
+		php_admin_flag engine Off
+		AddType application/octet-stream .pdf
+		require all denied
+		<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
+			require all granted
+		</FilesMatch>
+</Directory>
+<Directory {{ mage_docroot }}/js/>
+		php_admin_flag engine Off
+</Directory>
+<Directory {{ mage_docroot }}/skin/>
+		php_admin_flag engine Off
+</Directory>

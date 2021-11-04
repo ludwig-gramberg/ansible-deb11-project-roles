@@ -1,0 +1,8 @@
+---
+
+- name: deploy magento vhost
+  template: 
+    dest: /etc/apache2/vhosts-include/magento.conf
+    src: templates/magento.conf.j2
+  notify:
+    - reload apache

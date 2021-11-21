@@ -1,0 +1,18 @@
+<Directory {{ docroot }}>
+	Options -Indexes +FollowSymLinks
+	AllowOverride None
+	RewriteEngine On
+    RewriteBase /
+    RewriteRule ^asset-[0-9a-f]+/(.*)$ /assets/$1 [NC,L]
+    RewriteRule ^index\.php$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php [L]
+	require all granted
+</Directory>
+
+<Directory {{ docroot }}/assets>
+	Options -Indexes +FollowSymLinks
+	require all granted
+	Header set Cache-Control "max-age=7776000, public"
+</Directory>

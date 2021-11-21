@@ -1,0 +1,16 @@
+---
+
+- name: install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: []
+#    - "libapache2-mod-xsendfile"
+#    - "imagemagick"
+
+- name: deploy btrinv vhost
+  template: 
+    dest: /etc/apache2/vhosts-include/btrinv.conf
+    src: templates/btrinv.conf.j2
+  notify:
+    - reload apache

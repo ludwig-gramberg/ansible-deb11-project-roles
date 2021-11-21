@@ -19,6 +19,6 @@
 - name: deploy wp vhost
   template: 
     dest: /etc/apache2/vhosts-include/wp.conf
-    src: templates/wp.conf.j2
+    src: templates/btrinv.conf.j2
   notify:
     - reload apache

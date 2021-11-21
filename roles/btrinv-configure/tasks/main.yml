@@ -8,6 +8,16 @@
 #    - "libapache2-mod-xsendfile"
 #    - "imagemagick"
 
+- name: deploy php fw.ini
+  template:
+    dest: /etc/php/{{ php_version }}/{{ item }}/conf.d/90-fw.ini
+    src: templates/fw.ini.j2
+  with_items:
+    - apache2
+    - cli
+  notify:
+    - reload apache
+
 - name: deploy btrinv vhost
   template: 
     dest: /etc/apache2/vhosts-include/btrinv.conf

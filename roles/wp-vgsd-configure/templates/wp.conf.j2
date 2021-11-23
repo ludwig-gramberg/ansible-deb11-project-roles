@@ -35,7 +35,7 @@
 	<Files ~ "^(wp\-settings|wp\-activate|wp\-blog\-header|wp\-config|wp\-config\-sample|wp\-cron|wp\-load|wp\-mail|wp\-signup|xmlrpc)\.php$">
 	   deny from all
 	</Files>
-	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|webp|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
+	<FilesMatch "\.(css|map|txt|ico|xml|js|png|gif|jpeg|jpg|webp|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
 		Header set Cache-Control "max-age=7776000, public"
 	</FilesMatch>
 </Directory>
@@ -43,7 +43,7 @@
 <Directory {{ wp_docroot }}/wp-content>
 	php_admin_flag engine off
 	require all denied
-	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|webp|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
+	<FilesMatch "\.(css|map|txt|ico|xml|js|png|gif|jpeg|jpg|webp|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
 		require all granted
 	</FilesMatch>
 </Directory>
@@ -60,7 +60,7 @@
 <Directory {{ wp_docroot }}/wp-includes>
 	php_admin_flag engine off
 	require all denied
-	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|webp|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
+	<FilesMatch "\.(css|map|txt|ico|xml|js|png|gif|jpeg|jpg|webp|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
 		require all granted
 	</FilesMatch>
 </Directory>
@@ -68,7 +68,7 @@
 <Directory {{ wp_docroot }}/wp-content/uploads>
 	php_admin_flag engine off
 	require all denied
-	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|webp|woff|woff2|eot|svg|ttf|otf|htm|html|pdf|doc|docx|xls|xlsx|tiff|zip|gz|tar|bz|bz2|mp3|mp4)$">
+	<FilesMatch "\.(css|map|txt|ico|xml|js|png|gif|jpeg|jpg|webp|woff|woff2|eot|svg|ttf|otf|htm|html|pdf|doc|docx|xls|xlsx|tiff|zip|gz|tar|bz|bz2|mp3|mp4)$">
 		require all granted
 	</FilesMatch>
 </Directory>

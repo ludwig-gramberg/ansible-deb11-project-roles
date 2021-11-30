@@ -76,3 +76,10 @@
 <Directory {{ wp_docroot }}/wp-admin/includes>
 	require all denied
 </Directory>
+
+{% if is_local_dev is defined and is_local_dev == True %}
+<Directory {{ wp_docroot }}/wp-content/themes/vgsd2/static-templates>
+	php_admin_flag engine on
+	require all granted
+</Directory>
+{% endif %}

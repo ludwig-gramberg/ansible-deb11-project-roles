@@ -1,0 +1,41 @@
+---
+
+- include_role: 
+    name: deploy-init
+    tasks_from: deploy.yml
+
+- name: deploy wp-cfg
+  template:
+    dest: "{{ revision_folder }}/wp-config.php"
+    src: "templates/wp-config.php.j2"
+    owner: root
+    group: "www-data"
+    mode: 0750
+  notify:
+    - reload apache
+  
+- name: symlink files folders
+  file:
+    dest: "{{ revision_folder }}/{{ item }}"
+    src: "{{ deploy.dir }}/files/{{ item }}"
+    state: link
+  with_items:
+    - "wp-content/uploads"
+    
+#- name: create writeable files for webserver in mixed folders
+#  file:
+#    dest: "{{ revision_folder }}/{{ item }}"
+#    state: touch
+#    owner: www-data
+#    group: www-data
+#    mode: 0750
+#  with_items:
+#    - "public/.htaccess"
+
+- name: current symlink
+  file:
+    state: link
+    dest: "{{ deploy.dir }}/current"
+    src: "{{ revision_folder }}"
+  notify:
+    - reload apache

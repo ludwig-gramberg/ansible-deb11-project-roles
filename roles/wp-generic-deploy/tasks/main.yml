@@ -1,8 +1,16 @@
 ---
 
+- name: read revisions index
+  command: "cat {{ deploy.dir }}/revisions/index.txt"
+  register: revisions_index_file
+
+- name: revisions index in var
+  set_fact:
+    revisions_index: "{{ revisions_index_file.stdout }}"
+
 - include_role: 
     name: deploy-init
-    tasks_from: deploy.yml
+    tasks_from: deploy-begin.yml
 
 - name: deploy wp-cfg
   template:
@@ -13,7 +21,7 @@
     mode: 0750
   notify:
     - reload apache
-  
+
 - name: symlink files folders
   file:
     dest: "{{ revision_folder }}/{{ item }}"
@@ -22,10 +30,6 @@
   with_items:
     - "wp-content/uploads"
 
-- name: current symlink
-  file:
-    state: link
-    dest: "{{ deploy.dir }}/current"
-    src: "{{ revision_folder }}"
-  notify:
-    - reload apache
+- include_role:
+    name: deploy-init
+    tasks_from: deploy-end.yml

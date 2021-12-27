@@ -1,0 +1,66 @@
+<Directory {{ wp_docroot }}>
+	Options -Indexes +FollowSymLinks
+	AllowOverride None
+
+	RewriteEngine on
+	RewriteBase /
+	RewriteRule ^index\.php$ - [L]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . /index.php [L]
+
+	<Files ~ "^(wp\-settings|wp\-activate|wp\-blog\-header|wp\-config|wp\-config\-sample|wp\-cron|wp\-load|wp\-mail|wp\-signup|xmlrpc)\.php$">
+	   require all denied
+	</Files>
+	
+	require all granted
+	
+	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
+		Header set Cache-Control "max-age=2592000, public"
+	</FilesMatch>
+</Directory>
+
+<Directory {{ wp_docroot }}/wp-content>
+	php_admin_flag engine off
+	require all denied
+	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|pdf|doc|docx|xls|xlsx|tiff|zip|gz|tar|bz|bz2|mp3|mp4)$">
+		require all granted
+	</FilesMatch>
+</Directory>
+
+<Directory {{ wp_docroot }}/wp-includes>
+	php_admin_flag engine off
+	require all denied
+	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
+		require all granted
+	</FilesMatch>
+</Directory>
+
+<Directory {{ wp_docroot }}/wp-admin/includes>
+	require all denied
+</Directory>
+
+<Directory {{ wp_docroot }}/wp-content/plugins>
+	require all denied
+</Directory>
+
+<Directory {{ wp_docroot }}/wp-content/themes/bagsv>
+	php_admin_flag engine off
+	require all granted
+</Directory>
+
+<Directory {{ wp_docroot }}/wp-content/themes/bagsv/config>
+	require all denied
+</Directory>
+
+<Directory {{ wp_docroot }}/wp-content/themes/bagsv/includes>
+	require all denied
+</Directory>
+
+<Directory {{ wp_docroot }}/wp-content/themes/bagsv/parts>
+	require all denied
+</Directory>
+
+<Directory {{ wp_docroot }}/wp-content/themes/bagsv/acf-json>
+	require all denied
+</Directory>

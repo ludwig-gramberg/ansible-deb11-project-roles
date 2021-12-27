@@ -1,20 +1,12 @@
 ---
 
-- name: read revisions index
-  command: "cat {{ deploy.dir }}/revisions/index.txt"
-  register: revisions_index_file
-
-- name: revisions index in var
-  set_fact:
-    revisions_index: "{{ revisions_index_file.stdout }}"
-
 - include_role: 
     name: deploy-init
     tasks_from: deploy-begin.yml
 
 - name: deploy wp-cfg
   template:
-    dest: "{{ revision_folder }}/wp-config.php"
+    dest: "{{ deployed_path }}/wp-config.php"
     src: "templates/wp-config.php.j2"
     owner: root
     group: "www-data"
@@ -24,7 +16,7 @@
 
 - name: symlink files folders
   file:
-    dest: "{{ revision_folder }}/{{ item }}"
+    dest: "{{ deployed_path }}/{{ item }}"
     src: "{{ deploy.dir }}/files/{{ item }}"
     state: link
   with_items:

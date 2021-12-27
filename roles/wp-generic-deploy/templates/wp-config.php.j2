@@ -19,7 +19,23 @@ $table_prefix = '{{ wp_config.table_prefix|default("wp_") }}';
 
 define('WP_DEBUG', false);
 define('WP_DEBUG_DISPLAY', false);
+
+# no updates, will be deployed
+define('WP_AUTO_UPDATE_CORE', false);
+define('AUTOMATIC_UPDATER_DISABLED', true);
+
+# no file edit in production
 define('DISALLOW_FILE_EDIT', true);
+
+# cron will be run by actual cron
+define('DISABLE_WP_CRON', true);
+
+{% if wp_config.define is defined %}
+# custom options
+{% for def in wp_config.define %}
+define('{{ def.name }}', {{ def.value }});
+{% endfor %}
+{% endif %}
 
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __FILE__ ) . '/' );

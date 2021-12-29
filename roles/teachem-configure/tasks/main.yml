@@ -1,5 +1,13 @@
 ---
 
+- name: install teachem requirements
+  apt:
+    state: present
+    name:
+      - "imagemagick"
+      - "ghostscript"
+      - "pdftk"
+
 - name: deploy teachem vhost
   template: 
     dest: /etc/apache2/vhosts-include/teachem.conf
@@ -16,3 +24,17 @@
     - cli
   notify:
     - reload apache
+
+- name: create teachem files folders
+  file:
+    dest: "{{ teachem_docroot }}/files/{{ item }}"
+    owner: www-data
+    group: www-data
+    chmod: 0750
+  with_items:
+    - "managed"
+    - "variation"
+    - "oauth"
+    - "trash"
+    - "tmp"
+  when: is_local_dev == False

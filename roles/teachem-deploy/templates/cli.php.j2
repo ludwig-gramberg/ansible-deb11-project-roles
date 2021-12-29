@@ -1,0 +1,7 @@
+<?php
+require_once 'shared.php';
+Config::set(ENVIRONMENT_TEST_ENVIRONMENT,		false);
+Config::set(ENVIRONMENT_DOMAIN_ROUTER,			'MainRouter');
+Config::set(ENVIRONMENT_EXCEPTION_HANDLER_CONTROLLER,	'BaseController::handleException');
+Config::set(ENVIRONMENT_BOOTSTRAP,			'include/bootstrap.php');
+Config::set(ENVIRONMENT_IS_CLI,				true);

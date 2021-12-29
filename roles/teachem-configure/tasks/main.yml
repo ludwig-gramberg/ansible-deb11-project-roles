@@ -27,14 +27,16 @@
 
 - name: create teachem files folders
   file:
-    dest: "{{ teachem_docroot }}/files/{{ item }}"
+    state: directory
+    dest: "{{ deploy.dir }}/files/{{ item }}"
     owner: www-data
     group: www-data
-    chmod: 0750
+    mode: 0750
+    recurse: true
   with_items:
-    - "managed"
-    - "variation"
-    - "oauth"
-    - "trash"
-    - "tmp"
+    - "files/managed"
+    - "files/variation"
+    - "files/oauth"
+    - "files/trash"
+    - "files/tmp"
   when: is_local_dev == False

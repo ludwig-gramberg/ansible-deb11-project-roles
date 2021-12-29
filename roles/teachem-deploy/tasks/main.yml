@@ -1,0 +1,62 @@
+---
+
+- include_role: 
+    name: deploy-init
+    tasks_from: deploy-begin.yml
+
+- name: create config dirs
+  file:
+    dest: "{{ deployed_path }}/config/environments"
+    state: directory
+    owner: root
+    group: "www-data"
+    mode: 0750
+    recurse: true
+
+- name: deploy configs
+  template:
+    dest: "{{ deployed_path }}/config/environments/{{ item.name }}"
+    src: "templates/{{ item.template }}"
+    owner: root
+    group: "www-data"
+    mode: 0640
+  with_items:
+    - template: "cli.php.j2"
+      name: "cli.php"
+    - template: "shared.php.j2"
+      name: "shared.php"
+    - template: "env.php.j2"
+      name: "{{ teachem_domain }}.php"
+  notify:
+    - reload apache
+
+- name: deploy values.php
+  template:
+    dest: "{{ deployed_path }}/config/values.php"
+    src: "{{ inventory_dir }}/deploy-config/{{ inventory_hostname }}/values.php.j2"
+    owner: root
+    group: "www-data"
+    mode: 0640
+  notify:
+    - reload apache
+
+- name: .branch file
+  copy:
+    content: "{{ deploy.branch }}"
+    dest: "{{ deployed_path }}/.branch"
+    mode: 0440
+    owner: root
+    group: "www-data"
+
+- name: symlink files folders
+  file:
+    dest: "{{ deployed_path }}/{{ item }}"
+    src: "{{ deploy.dir }}/files/{{ item }}"
+    state: link
+  with_items:
+    - "files"
+    - "logs"
+
+- include_role:
+    name: deploy-init
+    tasks_from: deploy-end.yml

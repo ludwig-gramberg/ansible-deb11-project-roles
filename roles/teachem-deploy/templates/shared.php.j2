@@ -1,0 +1,17 @@
+<?php
+Config::set(ENVIRONMENT_DATABASE_SERVER,				'{{ teachem_db_host }}');
+Config::set(ENVIRONMENT_DATABASE_USERNAME,				'{{ teachem_db_user }}');
+Config::set(ENVIRONMENT_DATABASE_PASSWORD,				'{{ teachem_db_pass }}');
+Config::set(ENVIRONMENT_DATABASE_DBNAME,				'{{ teachem_db_name }}');
+Config::set(ENVIRONMENT_DATABASE_PORT,					'3306');
+Config::set(ENVIRONMENT_SALT_IMAGES,					'{{ teachem_salt_images }}');
+Config::set(ENVIRONMENT_SALT_PASSWORD,					'{{ teachem_salt_password }}');
+Config::set(ENVIRONMENT_LOGS,						    array());
+Config::set(ENVIRONMENT_ADDITIONAL_PATHS,				array());
+
+Config::set(ENVIRONMENT_ELASTIC_SEARCH_PROTO,				'http://');
+Config::set(ENVIRONMENT_ELASTIC_SEARCH_HOST,				'{{ teachem_elastic_host }}');
+Config::set(ENVIRONMENT_ELASTIC_SEARCH_PORT,				'9200');
+Config::set(ENVIRONMENT_ELASTIC_SEARCH_INDEX,				'{{ teachem_elastic_index }}');
+Config::set(ENVIRONMENT_ELASTIC_SEARCH_USERNAME,			'{{ teachem_elastic_user }}');
+Config::set(ENVIRONMENT_ELASTIC_SEARCH_PASSWORD,			'{{ teachem_elastic_pass }}');

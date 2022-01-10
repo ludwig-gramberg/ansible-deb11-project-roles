@@ -4,6 +4,14 @@
     name: deploy-init
     tasks_from: deploy-begin.yml
 
+- name: create state/vault
+  file:
+    state: directory
+    path: "{{ deploy.dir }}/files/state/vault"
+    owner: "www-data"
+    group: "www-data"
+    mode: 0750
+    
 - name: deploy resources.ini
   template:
     dest: "{{ deployed_path }}/config/resources.ini"
@@ -13,6 +21,24 @@
     mode: 0640
   notify:
     - reload apache
+
+- name: onoff.ini
+  copy:
+    dest: "{{ deploy.dir }}/files/state/onoff.ini"
+    content: "application=off"
+    force: no
+    owner: www-data
+    group: www-data
+    mode: 0600
+
+- name: setup.ini
+  copy:
+    dest: "{{ deploy.dir }}/files/state/setup.ini"
+    content: ""
+    force: no
+    owner: www-data
+    group: www-data
+    mode: 0600
 
 - name: symlink files folders
   file:

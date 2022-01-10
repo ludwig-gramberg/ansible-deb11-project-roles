@@ -1,0 +1,27 @@
+---
+
+- include_role: 
+    name: deploy-init
+    tasks_from: deploy-begin.yml
+
+- name: deploy resources.ini
+  template:
+    dest: "{{ deployed_path }}/config/resources.ini"
+    src: "{{ inventory_dir }}/deploy-config/{{ inventory_hostname }}/resources.ini.j2"
+    owner: root
+    group: "www-data"
+    mode: 0640
+  notify:
+    - reload apache
+
+- name: symlink files folders
+  file:
+    dest: "{{ deployed_path }}/{{ item }}"
+    src: "{{ deploy.dir }}/files/{{ item }}"
+    state: link
+  with_items:
+    - "state"
+
+- include_role:
+    name: deploy-init
+    tasks_from: deploy-end.yml

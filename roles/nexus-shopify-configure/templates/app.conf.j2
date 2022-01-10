@@ -1,3 +1,8 @@
+XSendFile on
+XSendFileIgnoreEtag on
+XSendFileIgnoreLastModified on
+XSendFilePath {{ app_vault_path }}
+
 <Directory {{ app_docroot }}>
 	Options -Indexes +FollowSymLinks
 	AllowOverride None

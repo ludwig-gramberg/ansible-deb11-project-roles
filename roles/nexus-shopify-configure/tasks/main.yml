@@ -5,6 +5,11 @@
     state: present
     name: python3-passlib
 
+- name: install libapache2-mod-xsendfile
+  apt:
+    state: present
+    name: libapache2-mod-xsendfile
+
 - name: deploy php fw.ini
   template:
     dest: /etc/php/{{ php_version }}/{{ item }}/conf.d/90-fw.ini

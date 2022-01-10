@@ -1,0 +1,32 @@
+---
+
+- name: install python3-passlib
+  apt:
+    state: present
+    name: python3-passlib
+
+- name: deploy php fw.ini
+  template:
+    dest: /etc/php/{{ php_version }}/{{ item }}/conf.d/90-fw.ini
+    src: templates/fw.ini.j2
+  with_items:
+    - apache2
+    - cli
+  notify:
+    - reload apache
+
+- name: deploy app vhost
+  template: 
+    dest: /etc/apache2/vhosts-include/app.conf
+    src: templates/app.conf.j2
+  notify:
+    - reload apache
+    
+- name: create htpasswd
+  htpasswd:
+    path: /var/www/.htpasswd
+    name: "{{ app_admin_user }}"
+    password: "{{ app_admin_pass }}"
+    owner: root
+    group: www-data
+    mode: 0640

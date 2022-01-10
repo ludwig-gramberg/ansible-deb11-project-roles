@@ -1,0 +1,31 @@
+<Directory {{ app_docroot }}>
+	Options -Indexes +FollowSymLinks
+	AllowOverride None
+	
+	RewriteEngine on
+	RewriteBase /	
+	RewriteRule ^index\.php$ - [L]
+	
+	RewriteCond %{REQUEST_URI} ^/admin/
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule .* /admin/index.php [L]
+	
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . /index.php [L]
+</Directory>
+
+<Directory {{ app_docroot }}/admin>
+	AuthUserFile /var/www/.htpasswd
+	AuthName "Please Log In"
+	AuthType Basic
+	require valid-user
+</Directory>
+
+<Directory /{{ app_docroot }}/assets>
+	require all granted
+	<FilesMatch "\.(css|txt|ioc|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html)$">
+		Header set Cache-Control "max-age=7776000, public"
+	</FilesMatch>
+</Directory>

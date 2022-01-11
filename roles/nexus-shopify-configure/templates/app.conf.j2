@@ -1,7 +1,7 @@
 XSendFile on
 XSendFileIgnoreEtag on
 XSendFileIgnoreLastModified on
-XSendFilePath {{ app_vault_path }}
+XSendFilePath {{ deploy.dir }}/revisions
 
 <Directory {{ app_docroot }}>
 	Options -Indexes +FollowSymLinks
@@ -19,6 +19,8 @@ XSendFilePath {{ app_vault_path }}
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule . /index.php [L]
+	
+	require all granted
 </Directory>
 
 <Directory {{ app_docroot }}/admin>

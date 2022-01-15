@@ -1,0 +1,8 @@
+---
+
+- name: deploy static vhost
+  template: 
+    dest: /etc/apache2/vhosts-include/static.conf
+    src: templates/static.conf.j2
+  notify:
+    - reload apache

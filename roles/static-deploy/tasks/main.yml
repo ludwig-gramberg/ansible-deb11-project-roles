@@ -1,0 +1,9 @@
+---
+
+- include_role: 
+    name: deploy-init
+    tasks_from: deploy-begin.yml
+
+- include_role:
+    name: deploy-init
+    tasks_from: deploy-end.yml

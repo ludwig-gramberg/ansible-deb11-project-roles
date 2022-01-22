@@ -1,0 +1,26 @@
+---
+
+- include_role: 
+    name: deploy-init
+    tasks_from: deploy-begin.yml
+
+- name: deploy config.xml
+  template:
+    dest: "{{ deployed_path }}/data/config.xml"
+    src: "templates/config.xml.j2"
+    owner: root
+    group: "www-data"
+    mode: 0750
+
+- name: symlink files folders
+  file:
+    dest: "{{ deployed_path }}/{{ item }}"
+    src: "{{ deploy.dir }}/files/{{ item }}"
+    state: link
+  with_items:
+    - "data/db"
+    - "public/media"
+
+- include_role:
+    name: deploy-init
+    tasks_from: deploy-end.yml

@@ -1,0 +1,22 @@
+<Directory {{ deploy.dir }}/current/public>
+	Options -Indexes +FollowSymLinks
+	AllowOverride None
+
+	RewriteEngine on
+	RewriteBase /
+
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-s
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . /index.php [L]
+	
+	require all granted
+</Directory>
+
+<Directory {{ deploy.dir }}/current/public/media>
+	php_admin_flag engine off
+	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|pdf|doc|docx|xls|xlsx|tiff|zip|gz|tar|bz|bz2|mp3|mp4)$">
+		require all granted
+	</FilesMatch>
+</Directory>

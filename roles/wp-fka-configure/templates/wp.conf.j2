@@ -4,23 +4,23 @@
 
 	RewriteEngine on
 	RewriteBase /
+
+	RewriteBase /
 	RewriteCond %{REQUEST_URI} !^/wp\-json/wp/v2/
 	RewriteRule ^wp\-json(/.*)?$ - [L,F]
 	RewriteRule ^calendars/([a-f0-9]+)$ /teachem-calendars.php?id=$1 [L]
+	RewriteRule ^calendars-api((/[a-z0-9\_]+)+)$ /teachem-calendars-api.php?path=$1 [L]
 	RewriteRule ^index\.php$ - [L]
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule . /index.php [L]
+</Directory>
 
+<Directory {{ wp_docroot }}>
 	<Files ~ "^(wp\-settings|wp\-activate|wp\-blog\-header|wp\-config|wp\-config\-sample|wp\-cron|wp\-load|wp\-mail|wp\-signup|xmlrpc)\.php$">
 	   deny from all
 	</Files>
-	
-	XSendFile On
-	XSendFilePath {{ wp_docroot }}/wp-content/uploads
-	
 	require all granted
-	
 	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
 		Header set Cache-Control "max-age=2592000, public"
 	</FilesMatch>
@@ -38,41 +38,36 @@
 	require all denied
 </Directory>
 
-<Directory {{ wp_docroot }}/wp-content/themes/ife>
+<Directory {{ wp_docroot }}/wp-content/themes/feldenkrais>
 	require all denied
 </Directory>
 
-<Directory {{ wp_docroot }}/wp-content/themes/ife/css>
-	require all denied
-	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
-		require all granted
-	</FilesMatch>
-</Directory>
-
-<Directory {{ wp_docroot }}/wp-content/themes/ife/img>
+<Directory {{ wp_docroot }}/wp-content/themes/feldenkrais/css>
 	require all denied
 	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
 		require all granted
 	</FilesMatch>
 </Directory>
 
-<Directory {{ wp_docroot }}/wp-content/themes/ife/js>
+<Directory {{ wp_docroot }}/wp-content/themes/feldenkrais/images>
 	require all denied
 	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
 		require all granted
 	</FilesMatch>
 </Directory>
 
-<Directory {{ wp_docroot }}/wp-content/themes/ife/swf>
+<Directory {{ wp_docroot }}/wp-content/themes/feldenkrais/js>
 	require all denied
 	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
 		require all granted
 	</FilesMatch>
 </Directory>
 
-<Directory {{ wp_docroot }}/wp-content/themes/ife/tools>
-	php_admin_flag engine on
-	require all granted
+<Directory {{ wp_docroot }}/wp-content/themes/feldenkrais/fonts>
+	require all denied
+	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">
+		require all granted
+	</FilesMatch>
 </Directory>
 
 <Directory {{ wp_docroot }}/wp-content/plugins>
@@ -97,13 +92,5 @@
 </Directory>
 
 <Directory {{ wp_docroot }}/wp-admin/includes>
-	require all denied
-</Directory>
-
-<Directory {{ wp_docroot }}/wp-content/uploads/ziptmp>
-	require all denied
-</Directory>
-
-<Directory {{ wp_docroot }}/wp-content/uploads/sendfiles>
 	require all denied
 </Directory>

@@ -5,15 +5,22 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - "libapache2-mod-xsendfile"
     - "imagemagick"
 
 - name: teachem calendars redirect
   template: 
     dest: "{{ wp_docroot }}/teachem-calendars.php" 
     src: templates/teachem-calendars.php.j2 
+    owner: root
+    group: www-data
+    mode: 0640
+
+- name: teachem calendars-api redirect
+  template: 
+    dest: "{{ wp_docroot }}/teachem-calendars-api.php" 
+    src: templates/teachem-calendars-api.php.j2 
     owner: root 
-    group: www-data 
+    group: www-data
     mode: 0640
 
 - name: deploy wp vhost

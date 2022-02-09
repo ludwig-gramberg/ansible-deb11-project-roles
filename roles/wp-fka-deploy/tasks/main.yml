@@ -16,7 +16,7 @@
 
 - name: deploy resources.ini
   template:
-    dest: "{{ deployed_path }}/config/resources.ini"
+    dest: "{{ deployed_path }}/composer/config/resources.ini"
     src: "{{ inventory_dir }}/deploy-config/{{ inventory_hostname }}/resources.ini.j2"
     owner: root
     group: "www-data"

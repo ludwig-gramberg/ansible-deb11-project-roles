@@ -9,7 +9,7 @@ if($path === null) {
    exit;
 }
 
-$result = @file_get_contents('{{ teachem_base_url }}/calendar'.$path);
+$result = @file_get_contents('{{ teachem_api_url }}/calendar'.$path);
 if(!$result) {
 	header('HTTP/1.x 404 Not Found', true, 404);
 	exit;

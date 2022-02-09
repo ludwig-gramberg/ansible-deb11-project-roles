@@ -14,11 +14,19 @@
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule . /index.php [L]
+	
+	<FilesMatch "wp-login.php">
+		require ip {{ hostvars['server-vpn'].ip_public }}
+	</FilesMatch>
+</Directory>
+
+<Directory {{ wp_docroot }}/wp-admin>
+	require ip {{ hostvars['server-vpn'].ip_public }}
 </Directory>
 
 <Directory {{ wp_docroot }}>
 	<Files ~ "^(wp\-settings|wp\-activate|wp\-blog\-header|wp\-config|wp\-config\-sample|wp\-cron|wp\-load|wp\-mail|wp\-signup|xmlrpc)\.php$">
-	   deny from all
+	   require all denied
 	</Files>
 	require all granted
 	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|swf)$">

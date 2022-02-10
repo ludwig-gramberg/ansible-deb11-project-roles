@@ -57,6 +57,12 @@
     - "files"
     - "logs"
 
+- name: restart php workers
+  service:
+    name: "php-worker-{{ item.name }}"
+    state: restarted
+  with_items: php_worker
+
 - include_role:
     name: deploy-init
     tasks_from: deploy-end.yml

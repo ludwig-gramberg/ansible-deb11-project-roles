@@ -6,8 +6,13 @@ Config::set(ENVIRONMENT_DATABASE_DBNAME,				'{{ teachem_db_name }}');
 Config::set(ENVIRONMENT_DATABASE_PORT,					'3306');
 Config::set(ENVIRONMENT_SALT_IMAGES,					'{{ teachem_salt_images }}');
 Config::set(ENVIRONMENT_SALT_PASSWORD,					'{{ teachem_salt_password }}');
-Config::set(ENVIRONMENT_LOGS,						    array());
-Config::set(ENVIRONMENT_ADDITIONAL_PATHS,				array());
+Config::set(ENVIRONMENT_LOGS,						    [
+	'errors.apache.log' => '/var/log/php/errors.apache.log',
+	'errors.apache.log.1' => '/var/log/php/errors.apache.log.1',
+	'errors.cli.log' => '/var/log/php/errors.cli.log',
+	'errors.cli.log.1' => '/var/log/php/errors.cli.log.1',
+]);
+Config::set(ENVIRONMENT_ADDITIONAL_PATHS, []);
 
 Config::set(ENVIRONMENT_ELASTIC_SEARCH_PROTO,				'http://');
 Config::set(ENVIRONMENT_ELASTIC_SEARCH_HOST,				'{{ teachem_elastic_host }}');

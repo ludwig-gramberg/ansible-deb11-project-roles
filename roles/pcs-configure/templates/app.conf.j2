@@ -1,4 +1,4 @@
-<Directory {{ deploy.dir }}/current/public>
+<Directory {{ app_root }}/public>
 	Options -Indexes +FollowSymLinks
 	AllowOverride None
 
@@ -14,7 +14,7 @@
 	require all granted
 </Directory>
 
-<Directory {{ deploy.dir }}/current/public/media>
+<Directory {{ app_root }}/public/media>
 	php_admin_flag engine off
 	<FilesMatch "\.(css|txt|ico|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|pdf|doc|docx|xls|xlsx|tiff|zip|gz|tar|bz|bz2|mp3|mp4)$">
 		require all granted

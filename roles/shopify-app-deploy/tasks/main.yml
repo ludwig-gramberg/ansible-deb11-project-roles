@@ -45,8 +45,7 @@
     dest: "{{ deployed_path }}/{{ item }}"
     src: "{{ deploy.dir }}/files/{{ item }}"
     state: link
-  with_items:
-    - "state"
+  with_items: "{{ deploy.file_dirs|default([]) }}"
 
 - include_role:
     name: deploy-init

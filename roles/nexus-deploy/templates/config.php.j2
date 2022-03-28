@@ -1,0 +1,10 @@
+<?php
+date_default_timezone_set('Europe/Berlin');
+define('SITE_NAME_CMS', 'NEXUS Magazin');
+
+$dbconfig = array(
+    'mysql:host={{ hostvars['server-mysql'].ip_vlan }};dbname=nexus',
+    'nexus',
+    '{{ cred.mysql['nexus'] }}',
+    array(PDO::ATTR_PERSISTENT => false)
+);

@@ -4,7 +4,7 @@
     name: deploy-init
     tasks_from: deploy-begin.yml
 
-- name: create state/vault
+- name: create file_dirs
   file:
     state: directory
     path: "{{ deploy.dir }}/files/{{ item }}"
@@ -13,33 +13,25 @@
     mode: 0750
   with_items: "{{ deploy.file_dirs|default([]) }}"
     
-- name: deploy resources.ini
+- name: config dir
+  file:
+    dest: "{{ deployed_path }}/config"
+    owner: root
+    group: "www-data"
+    mode: 0750
+    state: directory
+  notify:
+    - reload apache
+    
+- name: config.php
   template:
-    dest: "{{ deployed_path }}/config/resources.ini"
-    src: "{{ inventory_dir }}/deploy-config/{{ inventory_hostname }}/resources.ini.j2"
+    dest: "{{ deployed_path }}/config/config.php"
+    src: "templates/config.php.j2"
     owner: root
     group: "www-data"
     mode: 0640
   notify:
     - reload apache
-
-- name: onoff.ini
-  copy:
-    dest: "{{ deploy.dir }}/files/state/onoff.ini"
-    content: "application=off"
-    force: no
-    owner: www-data
-    group: www-data
-    mode: 0600
-
-- name: setup.ini
-  copy:
-    dest: "{{ deploy.dir }}/files/state/setup.ini"
-    content: ""
-    force: no
-    owner: www-data
-    group: www-data
-    mode: 0600
 
 - name: symlink files folders
   file:

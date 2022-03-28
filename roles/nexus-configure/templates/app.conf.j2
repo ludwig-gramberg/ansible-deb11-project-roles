@@ -1,0 +1,145 @@
+<Directory {{ nexus_docroot }}>
+
+	Options -Indexes +FollowSymLinks
+	AllowOverride None
+
+	RewriteEngine on
+	RewriteBase /
+
+	RewriteCond %{HTTP_HOST} ^cms\.
+	RewriteRule ^/?$ cms.php [L]
+	RewriteCond %{HTTP_HOST} ^cms\.
+	RewriteRule ^/*index/*$ / [L,R=301]
+	RewriteCond %{HTTP_HOST} ^cms\.
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule .* cms.php [L]
+	RewriteCond %{HTTP_HOST} ^rss\.
+	RewriteRule ^/?$ rss.php [L]
+	RewriteCond %{HTTP_HOST} ^cms\.
+	RewriteRule ^/*index/*$ / [L,R=301]
+	RewriteCond %{HTTP_HOST} ^rss\.
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule .* rss.php [L]
+	RewriteRule ^index\.php$ - [L]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule .* index.php [L]
+	
+	require all granted
+</Directory>
+
+<Directory {{ nexus_docroot }}/class>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/cms>
+	require all granted
+</Directory>
+
+<Directory {{ nexus_docroot }}/cms/class>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/cms/mod>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/cms/templates>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/cms/css>
+	require all granted
+	<FilesMatch "\.(css|txt|ioc|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html)$">
+		Header set Cache-Control "max-age=604800, public"
+	</FilesMatch>
+</Directory>
+
+<Directory {{ nexus_docroot }}/cms/icon>
+	require all granted
+	<FilesMatch "\.(css|txt|ioc|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html)$">
+		Header set Cache-Control "max-age=604800, public"
+	</FilesMatch>
+</Directory>
+
+<Directory {{ nexus_docroot }}/cms/js>
+	require all granted
+	<FilesMatch "\.(css|txt|ioc|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html)$">
+		Header set Cache-Control "max-age=604800, public"
+	</FilesMatch>
+</Directory>
+
+<Directory {{ nexus_docroot }}/config>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/css>
+	require all granted
+	<FilesMatch "\.(css|txt|ioc|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html)$">
+		Header set Cache-Control "max-age=86400, public"
+	</FilesMatch>
+</Directory>
+
+<Directory {{ nexus_docroot }}/files>
+	php_admin_flag engine off
+	require all granted
+	<FilesMatch "\.(css|txt|ioc|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html|doc|docx|xls|xlsx|tiff|zip|gz|tar|bz|bz2|mp3|mp4)$">
+		Header set Cache-Control "max-age=86400, public"
+	</FilesMatch>
+</Directory>
+
+<Directory {{ nexus_docroot }}/files/premium>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/images>
+	php_admin_flag engine off
+	require all granted
+	<FilesMatch "\.(css|txt|ioc|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html)$">
+		Header set Cache-Control "max-age=86400, public"
+	</FilesMatch>
+</Directory>
+
+<Directory {{ nexus_docroot }}/framework>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/js>
+	require all granted
+	<FilesMatch "\.(css|txt|ioc|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html)$">
+		Header set Cache-Control "max-age=86400, public"
+	</FilesMatch>
+</Directory>
+
+<Directory {{ nexus_docroot }}/log>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/misc/init>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/misc/capfuscate>
+	require all granted
+</Directory>
+
+<Directory {{ nexus_docroot }}/mod>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/navart>
+	require all granted
+	<FilesMatch "\.(css|txt|ioc|xml|js|png|gif|jpeg|jpg|woff|woff2|eot|svg|ttf|otf|htm|html)$">
+		Header set Cache-Control "max-age=86400, public"
+	</FilesMatch>
+</Directory>
+
+<Directory {{ nexus_docroot }}/templates>
+	require all denied
+</Directory>
+
+<Directory {{ nexus_docroot }}/xml>
+	require all granted
+</Directory>

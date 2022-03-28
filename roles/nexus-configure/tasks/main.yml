@@ -1,0 +1,8 @@
+---
+
+- name: deploy app vhost
+  template: 
+    dest: /etc/apache2/vhosts-include/app.conf
+    src: templates/app.conf.j2
+  notify:
+    - reload apache

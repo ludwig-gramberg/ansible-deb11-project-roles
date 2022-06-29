@@ -31,10 +31,11 @@
     state: link
   with_items:
     - "wp-content/uploads"
+    - "composer/state"
 
 - name: teachem calendars redirect
   template:
-    dest: "{{ wp_docroot }}/teachem-calendars.php"
+    dest: "{{ deployed_path }}/teachem-calendars.php"
     src: templates/teachem-calendars.php.j2
     owner: root
     group: www-data
@@ -42,7 +43,7 @@
 
 - name: teachem calendars-api redirect
   template:
-    dest: "{{ wp_docroot }}/teachem-calendars-api.php"
+    dest: "{{ deployed_path }}/teachem-calendars-api.php"
     src: templates/teachem-calendars-api.php.j2
     owner: root
     group: www-data

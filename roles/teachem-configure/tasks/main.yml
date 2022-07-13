@@ -39,4 +39,6 @@
     - "files/oauth"
     - "files/trash"
     - "files/tmp"
+    - "logs"
+    - "schema/api/definitions/attributes"
   when: is_local_dev == False

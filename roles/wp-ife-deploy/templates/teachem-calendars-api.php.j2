@@ -1,0 +1,19 @@
+<?php
+ini_set('display_errors', false);
+
+$path = array_key_exists('path', $_GET) && preg_match('/(\/[a-z0-9\_]+)+/', $_GET['path'])
+        ? $_GET['path']
+        : null;
+
+if($path === null) {
+   exit;
+}
+
+$result = @file_get_contents('{{ teachem_api_url }}/calendar'.$path);
+if(!$result) {
+	header('HTTP/1.x 404 Not Found', true, 404);
+	exit;
+}
+
+header('Content-Type: text/calendar; charset=utf8');
+echo $result;

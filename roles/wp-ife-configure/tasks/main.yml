@@ -8,13 +8,15 @@
     - "libapache2-mod-xsendfile"
     - "imagemagick"
 
-- name: teachem calendars redirect
-  template: 
-    dest: "{{ wp_docroot }}/teachem-calendars.php" 
-    src: templates/teachem-calendars.php.j2 
-    owner: root 
-    group: www-data 
-    mode: 0640
+- name: deploy php fw.ini
+  template:
+    dest: /etc/php/{{ php_version }}/{{ item }}/conf.d/90-fw.ini
+    src: templates/fw.ini.j2
+  with_items:
+    - apache2
+    - cli
+  notify:
+    - reload apache
 
 - name: deploy wp vhost
   template: 

@@ -1,3 +1,6 @@
+XSendFile On
+XSendFilePath {{ deploy.dir }}/revisions
+
 <Directory {{ wp_docroot }}>
 	Options -Indexes +FollowSymLinks
 	AllowOverride None
@@ -15,9 +18,6 @@
 	<Files ~ "^(wp\-settings|wp\-activate|wp\-blog\-header|wp\-config|wp\-config\-sample|wp\-cron|wp\-load|wp\-mail|wp\-signup|xmlrpc)\.php$">
 	   deny from all
 	</Files>
-	
-	XSendFile On
-	XSendFilePath {{ wp_docroot }}/wp-content/uploads
 	
 	require all granted
 	
